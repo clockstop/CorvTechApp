@@ -1,5 +1,6 @@
 package com.corvallistechnical.consumer.corvtech;
 
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -26,7 +27,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * keep every loaded fragment in memory. If this becomes too memory intensive, it may be best
      * to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    SectionsPagerAdapter mSectionsPagerAdapter; 
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -36,6 +37,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        //Set the contentView to the current activity.
         setContentView(R.layout.activity_main);
         // Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
@@ -102,16 +105,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public Fragment getItem(int i) {
-            Fragment fragment = new DummySectionFragment();
+        	Fragment fragment = null;
+        	if(i == 0){
+        		fragment = new fragmentHome();
+        	}
+        	else if(i == 1){
+        		fragment = new fragmentServices();
+        	}
             Bundle args = new Bundle();
-            args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
             fragment.setArguments(args);
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override
@@ -119,7 +127,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             switch (position) {
                 case 0: return getString(R.string.title_section1).toUpperCase();
                 case 1: return getString(R.string.title_section2).toUpperCase();
-                case 2: return getString(R.string.title_section3).toUpperCase();
             }
             return null;
         }
@@ -128,20 +135,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     /**
      * A dummy fragment representing a section of the app, but that simply displays dummy text.
      */
-    public static class DummySectionFragment extends Fragment {
-        public DummySectionFragment() {
+    public static class fragmentHome extends Fragment {
+        public fragmentHome() {
         }
-
-        public static final String ARG_SECTION_NUMBER = "section_number";
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            TextView textView = new TextView(getActivity());
-            textView.setGravity(Gravity.CENTER);
-            Bundle args = getArguments();
-            textView.setText(Integer.toString(args.getInt(ARG_SECTION_NUMBER)));
-            return textView;
+        	
+        	View view = inflater.inflate(R.layout.fragment_home, container, false);
+            return view;
+        }
+    }
+    
+    public static class fragmentServices extends Fragment {
+        public fragmentServices() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+        	
+        	View view = inflater.inflate(R.layout.fragment_services, container, false);
+            return view;
         }
     }
 }
